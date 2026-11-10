@@ -1,0 +1,28 @@
+{
+  "name": "hamtaraz-reconciliation",
+  "version": "1.0.1-ts.4",
+  "private": true,
+  "description": "TypeScript port of Hamtaraz Reconciliation Service 1.0.1",
+  "type": "module",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "scripts": {
+    "dev": "node --experimental-transform-types --watch src/server.ts",
+    "start": "node --experimental-transform-types src/server.ts",
+    "build": "tsc -p tsconfig.json && node scripts/build-assets.mjs",
+    "start:build": "node dist/src/server.js",
+    "test": "node --experimental-transform-types --test test/*.test.ts",
+    "test:core": "node --experimental-transform-types --test test/core.test.ts test/normalization.test.ts test/planner.test.ts test/identity.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "mustache": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/mustache": "^4.2.5",
+    "typescript": "~5.8.3"
+  }
+}

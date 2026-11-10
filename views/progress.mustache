@@ -1,0 +1,18 @@
+<!-- Asynchronous session-owned job progress. Polling reveals only counts/state; do not place national IDs or authorization values in status payloads. -->
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>در حال استعلام | هم‌تراز</title><link rel="stylesheet" href="/assets/styles.css"></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><div class="brand-mark">≈</div><div><div class="brand-title">هم‌تراز</div><div class="brand-caption">مغایرت‌گیری واریزی‌ها</div></div></div><div class="sidebar-bottom">نسخه v0.7</div></aside><div class="workspace"><header class="header"><div class="crumb">مغایرت‌گیری / <strong>پردازش استعلام‌ها</strong></div></header><main class="content narrow"><div class="page-heading"><h1>در حال اجرای استعلام‌های تأییدشده</h1><p class="subheading">این صفحه به‌صورت خودکار پیشرفت را نمایش می‌دهد و پس از تکمیل به نتایج منتقل می‌شود.</p></div><section class="panel flow-card"><div class="progress-count" id="progress-count">۰ از {{totalCalls}}</div><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div><div class="notice" id="progress-note" role="status" aria-live="polite">در حال آماده‌سازی...</div><p class="hint-text">درخواست‌ها پشت سر هم و با فاصله تنظیم‌شده اجرا می‌شوند. اگر برخی پاسخ‌ها نامعتبر باشند، موارد وابسته در گزارش نامشخص باقی می‌مانند.</p></section></main></div></div>
+<script>
+(async function poll(){
+ try {
+  const response=await fetch('/reconcile/progress/status',{cache:'no-store'});
+  if(!response.ok) throw new Error('HTTP '+response.status);
+  const s=await response.json();
+  if(s.state==='MISSING'){location.replace('/');return;}
+  document.getElementById('progress-count').textContent=s.attempted+' از '+s.planned;
+  document.getElementById('progress-fill').style.width=(s.planned ? Math.min(100,100*s.attempted/s.planned) : 100)+'%';
+  document.getElementById('progress-note').textContent=(s.state==='QUEUED'?'در صف اجرا':s.state==='RUNNING'?'در حال استعلام':'پردازش پایان یافت')+' · پاسخ نامعتبر/ناموفق: '+s.failed;
+  if(s.state==='COMPLETED'){ location.replace('/reconcile/complete');return; }
+ }catch(e){ document.getElementById('progress-note').textContent='ارتباط با سرور برای نمایش پیشرفت قطع شده است؛ می‌توانید صفحه را تازه‌سازی کنید.'; }
+ setTimeout(poll,1500);
+})();
+</script></body></html>

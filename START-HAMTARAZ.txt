@@ -1,0 +1,17 @@
+HAMTARAZ TYPESCRIPT — WINDOWS STARTER
+Version: 1.0.1-ts.3 (Excel Precision Fix)
+
+1) Extract the complete ZIP to a normal writable folder.
+2) Install Node.js 22.16.0 or newer (npm included).
+3) Double-click Start-Hamtaraz.bat.
+4) The launcher installs dependencies if needed, builds the project,
+   starts the server, and opens http://localhost:8080.
+5) Keep the separate server console window open while using Hamtaraz.
+
+Optional desktop shortcut:
+Run this in PowerShell from the project folder:
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\Create-Desktop-Shortcut.ps1
+
+If the page still rejects a workbook, read the Persian error shown on the
+upload page and the diagnostic in the Hamtaraz Server console.
+Each workbook must be .xlsx and no larger than 25 MB.
